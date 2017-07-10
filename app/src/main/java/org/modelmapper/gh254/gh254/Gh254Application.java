@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
@@ -20,6 +19,8 @@ public class Gh254Application {
 
 	@RequestMapping
 	public Dto dto() {
+		// Use this and it will work
+		//return modelMapper.map(new RequestFromSamePackage("1", "chhsiao90@gmail.com"), Dto.class);
 		return modelMapper.map(new Request("1", "chhsiao90@gmail.com"), Dto.class);
 	}
 }

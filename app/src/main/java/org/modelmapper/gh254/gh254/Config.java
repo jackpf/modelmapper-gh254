@@ -28,8 +28,26 @@ public class Config {
     }
 
     @Bean
+    public PropertyMap<RequestFromSamePackage, Dto> propertyMapFromSamePackage() {
+        return new PropertyMap<RequestFromSamePackage, Dto>() {
+            @Override
+            protected void configure() {
+                map().setId(source.getId());
+                using(new Converter<String, String>() {
+                    @Override
+                    public String convert(MappingContext<String, String> context) {
+                        return Base64.getEncoder().encodeToString(context.getSource().getBytes());
+                    }
+                }).map().setEmailEncrypted(source.getEmail());
+            }
+        };
+    }
+
+    @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
+        // Use this and it will work
+        //modelMapper.addMappings(propertyMapFromSamePackage());
         modelMapper.addMappings(propertyMap());
         return modelMapper;
     }
